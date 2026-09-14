@@ -1,0 +1,2625 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Котик для Эли 🌸</title>
+    <style>
+        :root {
+            --cream: #FDF8F0;
+            --cream-2: #FBEFE0;
+            --ink: #7A6A80;
+            --ink-light: #A89AAE;
+            --night: #1A2238;
+            --night-2: #263155;
+            --card: #FFFFFF;
+            --feed: #FFB347;
+            --feed-dark: #E89B2E;
+            --play: #7ED9C2;
+            --play-dark: #55BEAA;
+            --sleep: #B5A6D9;
+            --sleep-dark: #9989C4;
+            --pet: #FFB6C1;
+            --pet-dark: #EF9FB0;
+            --gold: #FFD166;
+            --shadow: rgba(90, 70, 110, 0.16);
+            --green: #6FCF7A;
+            --blue-h: #A9D4E8;
+            --yellow: #FFD66B;
+            --gpurple: #C3B4D6;
+            --amber: #FFB347;
+            --gray: #B9BDC9;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', 'Comic Sans', 'Segoe UI', Tahoma, sans-serif;
+            background:
+                radial-gradient(circle at 12% 8%, rgba(255, 209, 118, 0.25), transparent 30%),
+                radial-gradient(circle at 88% 24%, rgba(126, 217, 194, 0.28), transparent 32%),
+                radial-gradient(circle at 70% 95%, rgba(181, 166, 217, 0.25), transparent 34%),
+                linear-gradient(180deg, var(--cream) 0%, var(--cream-2) 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            color: var(--ink);
+            position: relative;
+            transition: background 0.8s ease;
+        }
+
+        body.night {
+            background:
+                radial-gradient(circle at 30% 15%, rgba(255, 255, 255, 0.08), transparent 26%),
+                radial-gradient(circle at 80% 70%, rgba(126, 170, 255, 0.12), transparent 34%),
+                linear-gradient(180deg, var(--night) 0%, var(--night-2) 100%);
+            color: #E8E4F4;
+        }
+
+        .floating-hearts {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .floating-heart {
+            position: absolute;
+            font-size: 22px;
+            opacity: 0;
+            animation: floatUp 16s linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(105vh) rotate(0deg); opacity: 0; }
+            12% { opacity: 0.28; }
+            88% { opacity: 0.28; }
+            100% { transform: translateY(-80px) rotate(360deg); opacity: 0; }
+        }
+
+        .stars {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+        }
+
+        body.night .stars { opacity: 1; }
+
+        .star {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background: #FFF6D8;
+            border-radius: 50%;
+            box-shadow: 0 0 8px 2px rgba(255, 240, 190, 0.8);
+            animation: twinkle 3s ease-in-out infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.25; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.15); }
+        }
+
+        .greeting {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(160deg, #FFFFFF, #FFF3E0);
+            padding: 34px 44px;
+            border-radius: 32px;
+            box-shadow: 0 20px 60px var(--shadow), 0 8px 0 rgba(255, 209, 118, 0.55);
+            z-index: 500;
+            text-align: center;
+            color: var(--ink);
+            animation: popIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            max-width: 90vw;
+        }
+
+        @keyframes popIn {
+            0% { transform: translate(-50%, -50%) scale(0); }
+            100% { transform: translate(-50%, -50%) scale(1); }
+        }
+
+        .greeting-cat { font-size: 76px; line-height: 1; margin-bottom: 8px; }
+
+        .greeting h1 {
+            font-size: 30px;
+            margin-bottom: 10px;
+            color: #E4759B;
+        }
+
+        .greeting p {
+            font-size: 18px;
+            margin-bottom: 22px;
+        }
+
+        .greeting button {
+            background: linear-gradient(180deg, #FFC46B, #FFB347);
+            color: #7A4B12;
+            border: none;
+            padding: 16px 46px;
+            border-radius: 30px;
+            font-size: 20px;
+            font-weight: bold;
+            font-family: inherit;
+            cursor: pointer;
+            box-shadow: 0 6px 0 var(--feed-dark), 0 10px 22px rgba(255, 179, 71, 0.4);
+            transition: transform 0.08s, box-shadow 0.08s;
+        }
+
+        .greeting button:active {
+            transform: translateY(5px);
+            box-shadow: 0 1px 0 var(--feed-dark);
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 16px;
+            background: rgba(255, 255, 255, 0.82);
+            backdrop-filter: blur(10px);
+            border-radius: 0 0 28px 28px;
+            box-shadow: 0 4px 20px var(--shadow);
+            position: relative;
+            z-index: 10;
+        }
+
+        body.night .top-bar { background: rgba(26, 34, 56, 0.85); }
+
+        .player-name {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: bold;
+            font-size: 18px;
+            color: #E4759B;
+        }
+
+        .player-name .avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: linear-gradient(180deg, #FFD6E5, #F7B9CF);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            box-shadow: 0 4px 10px rgba(228, 117, 155, 0.3);
+        }
+
+        .coins {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(180deg, #FFE9B0, #FFD98A);
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #8A5A1E;
+            box-shadow: 0 4px 14px rgba(255, 198, 92, 0.45);
+            min-width: 84px;
+            justify-content: center;
+        }
+
+        .round-btn {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: transform 0.08s, box-shadow 0.08s;
+        }
+
+        .round-btn:active { transform: translateY(4px) scale(0.96); }
+
+        .sound-btn {
+            background: linear-gradient(180deg, #9BE6D2, #7ED9C2);
+            box-shadow: 0 5px 0 var(--play-dark), 0 8px 16px rgba(126, 217, 194, 0.4);
+        }
+
+        .sound-btn.muted {
+            background: linear-gradient(180deg, #D5C9D5, #BCB0C2);
+            box-shadow: 0 5px 0 #8F8398;
+        }
+
+        .shop-btn {
+            background: linear-gradient(180deg, #C4B7E0, #B5A6D9);
+            box-shadow: 0 5px 0 var(--sleep-dark), 0 8px 16px rgba(181, 166, 217, 0.45);
+        }
+
+        .cat-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 44px 16px 8px;
+            position: relative;
+            z-index: 5;
+        }
+
+        .cat {
+            width: 280px;
+            height: 280px;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.25s;
+        }
+
+        .cat:active { transform: scale(0.96); }
+
+        .cat.jump { animation: jump 0.7s ease; }
+
+        @keyframes jump {
+            0% { transform: translateY(0); }
+            35% { transform: translateY(-70px) rotate(-4deg); }
+            70% { transform: translateY(0); }
+            85% { transform: translateY(-18px); }
+            100% { transform: translateY(0); }
+        }
+
+        .cat.stretch { animation: stretch 1.6s ease; }
+
+        @keyframes stretch {
+            0%, 100% { transform: scale(1); }
+            30% { transform: scale(1.12, 0.94); }
+            55% { transform: translateY(-14px) scale(1.02, 1.06); }
+            75% { transform: scale(1.08, 0.96); }
+        }
+
+        .cat-body {
+            position: absolute;
+            left: 0; top: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 36% 34%, #EAF2F6, #CCDBE4 58%, #B6CBD8);
+            border-radius: 50%;
+            box-shadow:
+                0 14px 34px var(--shadow),
+                inset 0 -12px 26px rgba(116, 146, 166, 0.35),
+                inset 0 12px 20px rgba(255, 255, 255, 0.65);
+            animation: breathe 3.2s ease-in-out infinite;
+        }
+
+        @keyframes breathe {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+        }
+
+        .fur-tuft {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.35);
+            filter: blur(2px);
+        }
+
+        .fur-tuft.t1 { width: 34px; height: 22px; top: 6px; left: 44px; transform: rotate(-12deg); }
+        .fur-tuft.t2 { width: 30px; height: 20px; top: 2px; right: 48px; transform: rotate(12deg); }
+        .fur-tuft.t3 { width: 40px; height: 26px; bottom: 22px; left: 34px; transform: rotate(8deg); }
+        .fur-tuft.t4 { width: 38px; height: 24px; bottom: 20px; right: 34px; transform: rotate(-8deg); }
+
+        .tail {
+            position: absolute;
+            right: -30px;
+            bottom: 10px;
+            width: 96px;
+            height: 30px;
+            background: linear-gradient(180deg, #C9DAE3, #AFC4D2);
+            border-radius: 24px;
+            transform-origin: 20% center;
+            animation: wag 2.8s ease-in-out infinite;
+            box-shadow: inset 0 -4px 8px rgba(116, 146, 166, 0.3);
+        }
+
+        @keyframes wag {
+            0%, 100% { transform: rotate(-10deg); }
+            50% { transform: rotate(14deg); }
+        }
+
+        .paw {
+            position: absolute;
+            bottom: 4px;
+            width: 46px;
+            height: 26px;
+            background: #C9DAE3;
+            border-radius: 16px;
+            box-shadow: inset 0 4px 6px rgba(116, 146, 166, 0.3);
+            z-index: 2;
+        }
+
+        .paw.left { left: 62px; transform: rotate(6deg); }
+        .paw.right { right: 62px; transform: rotate(-6deg); }
+
+        .ear {
+            position: absolute;
+            width: 74px;
+            height: 86px;
+            background: linear-gradient(180deg, #DCE8EE, #BDD0DB);
+            border-radius: 46% 46% 22% 22%;
+            top: -22px;
+            box-shadow: inset 0 8px 12px rgba(255, 255, 255, 0.5);
+        }
+
+        .ear.left { left: 26px; transform: rotate(-22deg); animation: earTwitch 6s ease-in-out infinite; }
+        .ear.right { right: 26px; transform: rotate(22deg); }
+
+        @keyframes earTwitch {
+            0%, 88%, 100% { transform: rotate(-22deg); }
+            94% { transform: rotate(-32deg); }
+        }
+
+        .ear-inner {
+            position: absolute;
+            width: 42px;
+            height: 52px;
+            background: linear-gradient(180deg, #F3C7D2, #EEACBE);
+            border-radius: 46% 46% 30% 30%;
+            top: 18px;
+            left: 16px;
+        }
+
+        .eye {
+            position: absolute;
+            width: 52px;
+            height: 62px;
+            background: white;
+            border-radius: 50%;
+            top: 96px;
+            box-shadow: inset 0 3px 6px rgba(120, 140, 160, 0.12);
+            animation: blink 4.5s infinite;
+            overflow: hidden;
+            z-index: 3;
+        }
+
+        .eye.left { left: 66px; }
+        .eye.right { right: 66px; }
+
+        @keyframes blink {
+            0%, 93%, 100% { transform: scaleY(1); }
+            96%, 98% { transform: scaleY(0.1); }
+        }
+
+        .cat.sleeping .eye { animation: none; transform: scaleY(0.12); }
+        .cat.sleeping .pupil { opacity: 0; }
+
+        .pupil {
+            position: absolute;
+            width: 32px;
+            height: 38px;
+            background: radial-gradient(circle at 32% 30%, #5A6E7E, #33444F);
+            border-radius: 50%;
+            top: 12px;
+            left: 10px;
+        }
+
+        .pupil::after {
+            content: '';
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: white;
+            border-radius: 50%;
+            top: 6px;
+            right: 6px;
+        }
+
+        .cheek {
+            position: absolute;
+            width: 40px;
+            height: 26px;
+            background: radial-gradient(circle, #F3C7D2 0%, transparent 70%);
+            border-radius: 50%;
+            top: 158px;
+            opacity: 0.9;
+        }
+
+        .cheek.left { left: 40px; }
+        .cheek.right { right: 40px; }
+
+        .nose {
+            position: absolute;
+            width: 22px;
+            height: 17px;
+            background: linear-gradient(180deg, #EEACBE, #E28FA4);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            top: 160px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .mouth {
+            position: absolute;
+            width: 42px;
+            height: 20px;
+            border-bottom: 6px solid #55707E;
+            border-radius: 0 0 50% 50%;
+            top: 184px;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: all 0.3s;
+        }
+
+        .mouth.meowing {
+            width: 34px;
+            height: 34px;
+            border: 4px solid #55707E;
+            border-radius: 50%;
+            animation: meowPulse 0.35s ease infinite;
+        }
+
+        @keyframes meowPulse {
+            0%, 100% { transform: translateX(-50%) scale(1); }
+            50% { transform: translateX(-50%) scale(1.12); }
+        }
+
+        .whisker {
+            position: absolute;
+            width: 62px;
+            height: 3px;
+            background: rgba(90, 112, 128, 0.35);
+            border-radius: 3px;
+        }
+
+        .whisker.left-1 { left: 18px; top: 168px; transform: rotate(-10deg); }
+        .whisker.left-2 { left: 18px; top: 178px; transform: rotate(0deg); }
+        .whisker.left-3 { left: 18px; top: 188px; transform: rotate(10deg); }
+        .whisker.right-1 { right: 18px; top: 168px; transform: rotate(10deg); }
+        .whisker.right-2 { right: 18px; top: 178px; transform: rotate(0deg); }
+        .whisker.right-3 { right: 18px; top: 188px; transform: rotate(-10deg); }
+
+        .accessory {
+            position: absolute;
+            font-size: 42px;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .accessory.bow { top: -10px; left: 48px; transform: rotate(-15deg); }
+        .accessory.hat { top: -58px; left: 50%; transform: translateX(-50%); font-size: 56px; }
+        .accessory.glasses { top: 86px; left: 50%; transform: translateX(-50%); font-size: 92px; }
+        .accessory.scarf { top: 208px; left: 50%; transform: translateX(-50%); font-size: 44px; }
+        .accessory.crown { top: -66px; left: 50%; transform: translateX(-50%); font-size: 62px; }
+        .accessory.flower { top: -18px; right: 38px; }
+        .accessory.butterfly { top: -28px; left: 34px; animation: flutter 2.2s ease-in-out infinite; }
+
+        @keyframes flutter {
+            0%, 100% { transform: rotate(-10deg) translateY(0); }
+            50% { transform: rotate(10deg) translateY(-6px); }
+        }
+
+        .emotion {
+            position: absolute;
+            font-size: 38px;
+            z-index: 12;
+            pointer-events: none;
+        }
+
+        .emotion.hearts { top: -52px; left: 50%; transform: translateX(-50%); animation: float 1.6s ease-in-out infinite; }
+        .emotion.zzz { top: -84px; right: 10px; font-size: 30px; animation: float 2.6s ease-in-out infinite; }
+        .emotion.tears { bottom: 52px; left: 24px; font-size: 30px; animation: dripTear 1.4s ease-in infinite; }
+
+        @keyframes dripTear {
+            0% { transform: translateY(0) scale(1); opacity: 0.9; }
+            100% { transform: translateY(18px) scale(0.7); opacity: 0; }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(-50%, 0); }
+            50% { transform: translate(-50%, -10px); }
+        }
+
+        .emotion.zzz { animation: floatZ 2.6s ease-in-out infinite; }
+
+        @keyframes floatZ {
+            0%, 100% { transform: translateY(6px); opacity: 0.75; }
+            50% { transform: translateY(-8px); opacity: 1; }
+        }
+
+        .speech-bubble {
+            position: absolute;
+            top: -58px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 12px 18px;
+            border-radius: 22px;
+            box-shadow: 0 6px 20px var(--shadow);
+            font-size: 16px;
+            font-weight: bold;
+            color: var(--ink);
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.3s;
+            z-index: 20;
+            pointer-events: none;
+            max-width: 86vw;
+        }
+
+        .speech-bubble.show {
+            opacity: 1;
+            transform: translateX(-50%) scale(1);
+            animation: bubbleIn 0.3s ease;
+        }
+
+        @keyframes bubbleIn {
+            0% { transform: translateX(-50%) scale(0.6); }
+            100% { transform: translateX(-50%) scale(1); }
+        }
+
+        .speech-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-left: 11px solid transparent;
+            border-right: 11px solid transparent;
+            border-top: 11px solid white;
+        }
+
+        .status-bar {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 22px;
+            padding: 12px 18px 10px;
+            margin: 0 16px 12px;
+            box-shadow: 0 6px 22px var(--shadow);
+            position: relative;
+            z-index: 5;
+        }
+
+        body.night .status-bar { background: rgba(38, 49, 85, 0.9); }
+
+        .status-item { margin-bottom: 8px; }
+        .status-item:last-child { margin-bottom: 0; }
+
+        .status-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 5px;
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        .status-track {
+            height: 13px;
+            background: rgba(150, 145, 170, 0.14);
+            border-radius: 999px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .status-fill {
+            height: 100%;
+            border-radius: 999px;
+            transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1), background 0.4s;
+            position: relative;
+            overflow: visible;
+        }
+
+        .status-fill::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+            background-size: 220% 100%;
+            animation: shimmer 2.6s infinite;
+            border-radius: 999px;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        .status-fill.hunger { background: linear-gradient(90deg, #60C97C, #8BDF9F); }
+        .status-fill.hunger-h { background: linear-gradient(90deg, var(--blue-h), #C4E4F3); }
+        .status-fill.happiness { background: linear-gradient(90deg, var(--yellow), #FFE39B); }
+        .status-fill.happiness-b { background: linear-gradient(90deg, var(--gpurple), #DCCDEA); }
+        .status-fill.energy { background: linear-gradient(90deg, var(--amber), #FFCA83); }
+        .status-fill.energy-s { background: linear-gradient(90deg, var(--gray), #CBD0DB); }
+
+        .status-fill.low { }
+
+        .status-fill.low::after {
+            content: '';
+            position: absolute;
+            right: 10%;
+            top: 110%;
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            animation: melt 1.6s ease-in infinite;
+        }
+
+        .status-fill.hunger-h.low::after { background: #9BCDE4; }
+        .status-fill.happiness-b.low::after { background: #B9A9CE; }
+        .status-fill.energy-s.low::after { background: #AEB3BF; }
+
+        @keyframes melt {
+            0% { transform: translateY(0) scale(0.8); opacity: 0.95; }
+            70% { transform: translateY(9px) scale(1); opacity: 0.55; }
+            100% { transform: translateY(15px) scale(0.4); opacity: 0; }
+        }
+
+        .actions {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            max-width: 460px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 10px 10px calc(10px + env(safe-area-inset-bottom));
+            background: rgba(255, 255, 255, 0.72);
+            border-radius: 24px 24px 0 0;
+            position: relative;
+            z-index: 5;
+        }
+
+        body.night .actions { background: rgba(26, 34, 56, 0.8); }
+
+        .action-btn {
+            aspect-ratio: 1 / 1;
+            border: none;
+            border-radius: 14px;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+            font-family: inherit;
+            transition: transform 0.08s, box-shadow 0.08s, filter 0.2s;
+            color: white;
+        }
+
+        .action-btn.feed { background: linear-gradient(180deg, #FFC46B, #FFB347); box-shadow: 0 4px 0 var(--feed-dark), 0 8px 14px rgba(255, 179, 71, 0.35); }
+        .action-btn.play { background: linear-gradient(180deg, #93E4CF, #7ED9C2); box-shadow: 0 4px 0 var(--play-dark), 0 8px 14px rgba(126, 217, 194, 0.35); }
+        .action-btn.sleep { background: linear-gradient(180deg, #C4B7E0, #B5A6D9); box-shadow: 0 4px 0 var(--sleep-dark), 0 8px 14px rgba(181, 166, 217, 0.35); }
+        .action-btn.pet { background: linear-gradient(180deg, #FFC9D2, #FFB6C1); box-shadow: 0 4px 0 var(--pet-dark), 0 8px 14px rgba(255, 182, 193, 0.4); }
+
+        .action-btn:active {
+            transform: translateY(3px);
+            box-shadow: 0 1px 0 rgba(0, 0, 0, 0.25), inset 0 4px 8px rgba(0, 0, 0, 0.14);
+        }
+
+        .action-label {
+            font-size: 11px;
+            font-weight: bold;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+        }
+
+        .panel {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: min(430px, 92vw);
+            background: #FFFEFB;
+            border-radius: 32px 0 0 32px;
+            padding: 26px 18px calc(26px + env(safe-area-inset-bottom));
+            box-shadow: -12px 0 40px var(--shadow);
+            transform: translateX(105%);
+            transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+            z-index: 100;
+            max-height: 100vh;
+            overflow-y: auto;
+        }
+
+        body.night .panel { background: #263155; }
+
+        .panel.active { transform: translateX(0); }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .panel-title { font-size: 22px; font-weight: bold; }
+
+        .close-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(150, 145, 170, 0.16);
+            font-size: 20px;
+            cursor: pointer;
+            color: var(--ink);
+        }
+
+        body.night .close-btn { color: #E8E4F4; }
+
+        .food-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+        }
+
+        .food-card {
+            background: linear-gradient(165deg, #FFF9F2, #FFF1E4);
+            border-radius: 24px;
+            padding: 18px 14px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.12s;
+            box-shadow: 0 4px 14px var(--shadow);
+            border: 3px solid transparent;
+        }
+
+        body.night .food-card { background: linear-gradient(165deg, #35406B, #2B3456); }
+
+        .food-card:active { transform: scale(0.95); }
+
+        .food-card.disabled { opacity: 0.5; cursor: not-allowed; filter: grayscale(0.4); }
+
+        .food-icon { font-size: 52px; margin-bottom: 6px; }
+        .food-name { font-weight: bold; font-size: 17px; margin-bottom: 4px; }
+        .food-price { color: #E4759B; font-weight: bold; font-size: 14px; }
+        .food-effect { font-size: 13px; color: var(--ink-light); margin-top: 4px; }
+
+        .shop-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        .shop-tab {
+            flex: 1;
+            padding: 14px 8px;
+            border: none;
+            border-radius: 18px;
+            background: rgba(150, 145, 170, 0.14);
+            font-size: 16px;
+            font-weight: bold;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--ink);
+        }
+
+        body.night .shop-tab { color: #E8E4F4; }
+
+        .shop-tab.active {
+            background: linear-gradient(180deg, #FFD6E5, #EFB3CF);
+            color: #7A3B57;
+            box-shadow: 0 4px 14px rgba(228, 117, 155, 0.35);
+        }
+
+        .shop-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+        }
+
+        .shop-item {
+            background: linear-gradient(165deg, #FFF9F2, #FBF0F5);
+            border-radius: 24px;
+            padding: 18px 14px;
+            text-align: center;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: all 0.2s;
+            box-shadow: 0 4px 14px var(--shadow);
+        }
+
+        body.night .shop-item { background: linear-gradient(165deg, #35406B, #2B3456); }
+
+        .shop-item:active { transform: scale(0.95); }
+        .shop-item.owned { border-color: #7ED9C2; background: linear-gradient(165deg, #EAFBF5, #DDF5EC); }
+        body.night .shop-item.owned { background: linear-gradient(165deg, #2E4A46, #27403D); }
+        .shop-item.equipped { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(255, 209, 102, 0.35), 0 6px 18px var(--shadow); }
+        .shop-icon { font-size: 52px; margin-bottom: 6px; }
+        .shop-name { font-weight: bold; font-size: 16px; margin-bottom: 4px; }
+        .shop-price { color: #E4759B; font-weight: bold; }
+        .shop-status { font-size: 13px; margin-top: 5px; color: var(--ink-light); }
+
+        .math-modal {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(70, 55, 90, 0.42);
+            backdrop-filter: blur(6px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 200;
+            padding: 18px;
+        }
+
+        .math-modal.active { display: flex; }
+
+        .math-card {
+            background: #FFFEFB;
+            border-radius: 32px;
+            padding: 34px 24px 26px;
+            max-width: 420px;
+            width: 100%;
+            text-align: center;
+            animation: popIn 0.3s ease;
+            position: relative;
+            box-shadow: 0 24px 60px rgba(70, 55, 90, 0.35);
+            max-height: 86vh;
+            overflow-y: auto;
+        }
+
+        body.night .math-card { background: #2B3456; }
+
+        .math-title { font-size: 20px; font-weight: bold; margin-bottom: 6px; color: #E4759B; }
+
+        .math-problem {
+            font-size: 46px;
+            font-weight: bold;
+            color: #E4759B;
+            margin: 8px 0 4px;
+        }
+
+        .math-visual {
+            font-size: 34px;
+            margin: 10px 0 6px;
+            line-height: 1.5;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .math-visual .carrot-group {
+            background: rgba(255, 209, 118, 0.25);
+            border-radius: 16px;
+            padding: 6px 12px;
+            display: inline-block;
+        }
+
+        .math-visual .op {
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--ink);
+        }
+
+        .math-caption {
+            font-size: 16px;
+            font-weight: bold;
+            color: var(--ink-light);
+            margin-bottom: 8px;
+            min-height: 22px;
+        }
+
+        .math-answers {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin: 20px 0 6px;
+        }
+
+        .math-answer {
+            padding: 18px 6px;
+            border: none;
+            border-radius: 20px;
+            background: linear-gradient(180deg, #C4B7E0, #B5A6D9);
+            color: #3A2B50;
+            font-size: 34px;
+            font-weight: bold;
+            font-family: inherit;
+            cursor: pointer;
+            box-shadow: 0 6px 0 var(--sleep-dark), 0 10px 16px rgba(181, 166, 217, 0.35);
+            transition: all 0.12s;
+        }
+
+        .math-answer:active { transform: translateY(5px); box-shadow: 0 1px 0 var(--sleep-dark); }
+
+        .math-answer.correct {
+            background: linear-gradient(180deg, #9BE6D2, #7ED9C2);
+            box-shadow: 0 0 0 4px rgba(126, 217, 194, 0.4), 0 8px 20px rgba(126, 217, 194, 0.5);
+            animation: pop 0.45s ease;
+        }
+
+        .math-answer.wrong {
+            background: linear-gradient(180deg, #F0C1CC, #E3A8B8);
+            animation: shake 0.45s ease;
+        }
+
+        @keyframes pop {
+            0%, 100% { transform: scale(1); }
+            45% { transform: scale(1.14); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-8px); }
+            75% { transform: translateX(8px); }
+        }
+
+        .math-actions {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            align-items: center;
+            margin-top: 12px;
+        }
+
+        .speak-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: none;
+            background: linear-gradient(180deg, #FFE9B0, #FFD166);
+            font-size: 22px;
+            cursor: pointer;
+            box-shadow: 0 5px 0 #E6B64C, 0 8px 14px rgba(255, 209, 102, 0.45);
+        }
+
+        .speak-btn:active { transform: translateY(4px); box-shadow: 0 1px 0 #E6B64C; }
+
+        .math-hint {
+            font-size: 15px;
+            color: var(--ink-light);
+            cursor: pointer;
+            margin-top: 4px;
+            text-decoration: underline dotted;
+        }
+
+        .game-area {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background:
+                radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.5), transparent 40%),
+                radial-gradient(circle at 85% 80%, rgba(255, 209, 118, 0.35), transparent 45%),
+                linear-gradient(180deg, #C3E9F7 0%, #E7FBF2 70%, #FDF2CF 100%);
+            z-index: 150;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            color: #3A4A5A;
+            overflow: hidden;
+        }
+
+        .game-area.active { display: flex; }
+
+        .game-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: 14px 16px 0;
+        }
+
+        .game-title {
+            font-size: 22px;
+            font-weight: bold;
+            text-shadow: 0 2px 6px rgba(255, 255, 255, 0.8);
+        }
+
+        .game-round {
+            background: white;
+            border-radius: 999px;
+            padding: 8px 18px;
+            font-weight: bold;
+            font-size: 17px;
+            box-shadow: 0 4px 14px var(--shadow);
+        }
+
+        .game-close {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            border: none;
+            background: white;
+            font-size: 24px;
+            cursor: pointer;
+            color: #5A6A7A;
+            box-shadow: 0 5px 0 rgba(0, 0, 0, 0.08);
+            font-family: inherit;
+        }
+
+        .game-close:active { transform: translateY(4px); }
+
+        .game-target {
+            margin: 14px 16px 6px;
+            background: rgba(255, 255, 255, 0.92);
+            border-radius: 26px;
+            padding: 16px 22px;
+            text-align: center;
+            box-shadow: 0 8px 26px var(--shadow);
+            width: min(90vw, 480px);
+        }
+
+        .game-target .target-text { font-size: 17px; font-weight: bold; margin-bottom: 6px; }
+
+        .game-equation {
+            font-size: 40px;
+            font-weight: bold;
+            color: #E4759B;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+        }
+
+        .game-field {
+            position: relative;
+            flex: 1;
+            width: 100%;
+            min-height: 280px;
+        }
+
+        .game-ball {
+            position: absolute;
+            width: 104px;
+            height: 104px;
+            background: radial-gradient(circle at 32% 28%, #FFCBD4, #E58DA6 60%, #CC6F8B);
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 34px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+            box-shadow: 0 12px 26px rgba(204, 111, 139, 0.45), inset 0 -10px 16px rgba(0, 0, 0, 0.12);
+            transition: transform 0.1s;
+            user-select: none;
+        }
+
+        .game-ball.mint { background: radial-gradient(circle at 32% 28%, #B9F0E0, #7ED9C2 60%, #55BEAA); box-shadow: 0 12px 26px rgba(85, 190, 170, 0.45), inset 0 -10px 16px rgba(0, 0, 0, 0.12); }
+        .game-ball.purple { background: radial-gradient(circle at 32% 28%, #CFC5EA, #B5A6D9 60%, #9081C0); box-shadow: 0 12px 26px rgba(144, 129, 192, 0.45), inset 0 -10px 16px rgba(0, 0, 0, 0.12); }
+
+        .game-ball:active { transform: scale(0.9); }
+
+        .game-ball.popped {
+            animation: pop 0.4s ease forwards;
+            pointer-events: none;
+        }
+
+        .game-ball.wrong {
+            animation: shake 0.5s ease;
+            opacity: 0.35;
+            pointer-events: none;
+        }
+
+        .game-ball.caught {
+            animation: flyAway 0.7s ease forwards;
+            pointer-events: none;
+        }
+
+        @keyframes flyAway {
+            0% { transform: scale(1); }
+            100% { transform: translateY(-120px) scale(0.2); opacity: 0; }
+        }
+
+        @keyframes ballFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-22px) rotate(6deg); }
+        }
+
+        .game-hint-msg {
+            position: absolute;
+            top: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(58, 74, 90, 0.9);
+            color: white;
+            padding: 10px 18px;
+            border-radius: 999px;
+            font-size: 16px;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            z-index: 5;
+            white-space: nowrap;
+        }
+
+        .game-hint-msg.show { opacity: 1; }
+
+        .game-cat {
+            position: absolute;
+            bottom: 6px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            z-index: 3;
+            pointer-events: none;
+        }
+
+        .game-cat .mini-cat {
+            font-size: 72px;
+            line-height: 1;
+            transition: transform 0.2s;
+        }
+
+        .game-cat.jumping .mini-cat { animation: miniJump 0.7s ease; }
+
+        @keyframes miniJump {
+            0% { transform: translateY(0); }
+            40% { transform: translateY(-52px) scale(1.05); }
+            80% { transform: translateY(0); }
+            100% { transform: translateY(-6px); }
+        }
+
+        .game-result {
+            position: absolute;
+            inset: 0;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(70, 55, 90, 0.32);
+            backdrop-filter: blur(4px);
+            z-index: 10;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .game-result.active { display: flex; }
+
+        .result-card {
+            background: white;
+            border-radius: 32px;
+            padding: 30px 34px;
+            color: var(--ink);
+            box-shadow: 0 24px 60px rgba(70, 55, 90, 0.4);
+            animation: popIn 0.4s ease;
+            max-width: 88vw;
+        }
+
+        .result-card .emoji-big { font-size: 60px; }
+        .result-card h3 { font-size: 24px; margin: 8px 0; color: #E4759B; }
+        .result-card p { font-size: 18px; margin-bottom: 16px; }
+
+        .result-card button {
+            background: linear-gradient(180deg, #FFC46B, #FFB347);
+            border: none;
+            padding: 14px 34px;
+            border-radius: 24px;
+            font-size: 18px;
+            font-weight: bold;
+            font-family: inherit;
+            color: #7A4B12;
+            cursor: pointer;
+            box-shadow: 0 5px 0 var(--feed-dark);
+        }
+
+        .result-card button:active { transform: translateY(4px); box-shadow: 0 1px 0 var(--feed-dark); }
+
+        .achievements {
+            position: fixed;
+            top: 84px;
+            right: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 400;
+        }
+
+        .achievement {
+            background: linear-gradient(135deg, #FFD166, #FF9FB5);
+            padding: 12px 18px;
+            border-radius: 18px;
+            font-size: 15px;
+            font-weight: bold;
+            color: #6E3A4A;
+            animation: slideIn 0.45s ease;
+            box-shadow: 0 8px 24px rgba(255, 159, 181, 0.5);
+            max-width: 88vw;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(220px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(70, 55, 90, 0.18);
+            z-index: 90;
+            display: none;
+        }
+
+        .overlay.active { display: block; }
+
+        .confetti-piece {
+            position: fixed;
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+            z-index: 999;
+            pointer-events: none;
+            animation: confettiFall 2.2s ease-in forwards;
+        }
+
+        @keyframes confettiFall {
+            0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+            100% { transform: translate(var(--cx), calc(var(--cy) + 60vh)) rotate(var(--cr)); opacity: 0; }
+        }
+
+        .coin-fly {
+            position: fixed;
+            z-index: 999;
+            font-size: 34px;
+            pointer-events: none;
+            animation: coinFly 0.85s ease-in forwards;
+        }
+
+        @keyframes coinFly {
+            0% { transform: translate(0, 0) scale(1); opacity: 1; }
+            100% { transform: translate(var(--dx), var(--dy)) scale(0.3); opacity: 0; }
+        }
+
+        .accessory-fall {
+            position: fixed;
+            z-index: 999;
+            font-size: 64px;
+            pointer-events: none;
+            animation: fallDown 1.1s ease forwards;
+        }
+
+        @keyframes fallDown {
+            0% { transform: translate(-50%, -20vh) rotate(-20deg); }
+            80% { transform: translate(-50%, 42vh) rotate(12deg); }
+            100% { transform: translate(-50%, 40vh) rotate(0deg); opacity: 1; }
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 110px;
+            left: 50%;
+            transform: translate(-50%, 30px);
+            background: rgba(70, 55, 90, 0.92);
+            color: white;
+            padding: 14px 22px;
+            border-radius: 20px;
+            font-size: 16px;
+            font-weight: bold;
+            z-index: 600;
+            opacity: 0;
+            transition: all 0.3s;
+            text-align: center;
+            pointer-events: none;
+            max-width: 88vw;
+        }
+
+        .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+        .toast .toast-title { font-size: 18px; display: block; margin-bottom: 2px; }
+
+        @media (max-width: 600px) {
+            .cat { width: 230px; height: 230px; }
+            .ear { width: 62px; height: 72px; top: -18px; }
+            .ear.left { left: 22px; }
+            .ear.right { right: 22px; }
+            .eye { top: 76px; width: 44px; height: 52px; }
+            .eye.left { left: 55px; }
+            .eye.right { right: 55px; }
+            .pupil { width: 27px; height: 32px; }
+            .cheek { top: 132px; }
+            .nose { top: 134px; }
+            .mouth { top: 155px; }
+            .whisker.left-1, .whisker.left-2, .whisker.left-3 { left: 12px; }
+            .whisker.right-1, .whisker.right-2, .whisker.right-3 { right: 12px; }
+            .paw.left { left: 46px; }
+            .paw.right { right: 46px; }
+            .fur-tuft.t1 { left: 34px; }
+            .fur-tuft.t2 { right: 38px; }
+            .fur-tuft.t3 { left: 24px; }
+            .fur-tuft.t4 { right: 24px; }
+            .actions { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+            .action-btn { aspect-ratio: auto; padding: 10px 6px; }
+            .status-label { font-size: 15px; }
+            .panel { width: 86vw; border-radius: 24px 0 0 24px; padding: 20px 16px; }
+            .panel-title { font-size: 19px; }
+            .shop-tabs { margin-bottom: 12px; }
+            .shop-tab { padding: 10px 6px; font-size: 14px; border-radius: 14px; }
+            .shop-grid, .food-grid { gap: 10px; }
+            .shop-item, .food-card { border-radius: 18px; padding: 12px 10px; }
+            .shop-icon, .food-icon { font-size: 38px; margin-bottom: 4px; }
+            .shop-name, .food-name { font-size: 15px; }
+            .shop-status { font-size: 12px; }
+            .math-problem { font-size: 36px; }
+            .math-visual { font-size: 26px; }
+            .game-ball { width: 88px; height: 88px; font-size: 28px; }
+            .greeting h1 { font-size: 24px; }
+            .greeting p { font-size: 15px; }
+            .player-name .avatar { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-hearts" id="floatingHearts"></div>
+    <div class="stars" id="stars"></div>
+
+    <div class="greeting" id="greeting" style="display:none">
+        <div class="greeting-cat">🐱</div>
+        <h1>Привет, Эля! 🌸</h1>
+        <p>Твой котик скучал по тебе!</p>
+        <button onclick="closeGreeting()">Играть! 💕</button>
+    </div>
+
+    <div class="top-bar">
+        <div class="player-name">
+            <div class="avatar">👧</div>
+            <span>Эля</span>
+        </div>
+        <div class="coins">
+            <span>🪙</span>
+            <span id="coinCount">0</span>
+        </div>
+        <button class="round-btn sound-btn" id="soundBtn" onclick="toggleSound()">🔊</button>
+        <button class="round-btn shop-btn" onclick="openShop()">🛍️</button>
+    </div>
+
+    <div class="cat-container">
+        <div class="cat" id="cat" onclick="petCat()">
+            <div class="speech-bubble" id="speechBubble">Привет, Эля!</div>
+            <div class="tail"></div>
+            <div class="cat-body">
+                <div class="fur-tuft t1"></div>
+                <div class="fur-tuft t2"></div>
+                <div class="fur-tuft t3"></div>
+                <div class="fur-tuft t4"></div>
+                <div class="ear left"><div class="ear-inner"></div></div>
+                <div class="ear right"><div class="ear-inner"></div></div>
+                <div class="eye left"><div class="pupil"></div></div>
+                <div class="eye right"><div class="pupil"></div></div>
+                <div class="cheek left"></div>
+                <div class="cheek right"></div>
+                <div class="nose"></div>
+                <div class="mouth" id="mouth"></div>
+                <div class="whisker left-1"></div>
+                <div class="whisker left-2"></div>
+                <div class="whisker left-3"></div>
+                <div class="whisker right-1"></div>
+                <div class="whisker right-2"></div>
+                <div class="whisker right-3"></div>
+                <div class="accessory bow" id="acc-bow" style="display:none">🎀</div>
+                <div class="accessory hat" id="acc-hat" style="display:none">🎩</div>
+                <div class="accessory glasses" id="acc-glasses" style="display:none">👓</div>
+                <div class="accessory scarf" id="acc-scarf" style="display:none">🧣</div>
+                <div class="accessory crown" id="acc-crown" style="display:none">👑</div>
+                <div class="accessory flower" id="acc-flower" style="display:none">🌸</div>
+                <div class="accessory butterfly" id="acc-butterfly" style="display:none">🦋</div>
+            </div>
+            <div class="paw left"></div>
+            <div class="paw right"></div>
+            <div class="emotion hearts" id="emotion-hearts" style="display:none">💕</div>
+            <div class="emotion zzz" id="emotion-zzz" style="display:none">💤</div>
+            <div class="emotion tears" id="emotion-tears" style="display:none">💧</div>
+        </div>
+    </div>
+
+    <div class="status-bar">
+        <div class="status-item">
+            <div class="status-label"><span>🍓</span><span>Сытость</span></div>
+            <div class="status-track">
+                <div class="status-fill hunger" id="hunger-bar" style="width: 80%"></div>
+            </div>
+        </div>
+        <div class="status-item">
+            <div class="status-label"><span>💖</span><span>Радость</span></div>
+            <div class="status-track">
+                <div class="status-fill happiness" id="happiness-bar" style="width: 80%"></div>
+            </div>
+        </div>
+        <div class="status-item">
+            <div class="status-label"><span>✨</span><span>Энергия</span></div>
+            <div class="status-track">
+                <div class="status-fill energy" id="energy-bar" style="width: 80%"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="actions">
+        <button class="action-btn feed" onclick="openFoodPanel()">
+            <span>🍓</span>
+            <span class="action-label">Покормить</span>
+        </button>
+        <button class="action-btn play" onclick="startGame()">
+            <span>🎾</span>
+            <span class="action-label">Поиграть</span>
+        </button>
+        <button class="action-btn sleep" onclick="toggleSleep()">
+            <span id="sleep-icon">🌙</span>
+            <span class="action-label" id="sleep-label">Спать</span>
+        </button>
+        <button class="action-btn pet" onclick="petCat()">
+            <span>🤍</span>
+            <span class="action-label">Погладить</span>
+        </button>
+    </div>
+
+    <div class="overlay" id="overlay" onclick="closePanels()"></div>
+
+    <div class="panel" id="food-panel">
+        <div class="panel-header">
+            <div class="panel-title">🍓 Выбери вкусняшку</div>
+            <button class="close-btn" onclick="closePanels()">✕</button>
+        </div>
+        <div class="food-grid">
+            <div class="food-card" onclick="feed('strawberry')">
+                <div class="food-icon">🍓</div>
+                <div class="food-name">Клубничка</div>
+                <div class="food-price">Бесплатно</div>
+                <div class="food-effect">+10 сытости</div>
+            </div>
+            <div class="food-card" onclick="feed('fish')" id="food-fish">
+                <div class="food-icon">🐟</div>
+                <div class="food-name">Рыбка</div>
+                <div class="food-price">2 🪙</div>
+                <div class="food-effect">+20 сытости, +5 радости</div>
+            </div>
+            <div class="food-card" onclick="feed('cookie')" id="food-cookie">
+                <div class="food-icon">🧁</div>
+                <div class="food-name">Кексик</div>
+                <div class="food-price">1 🪙</div>
+                <div class="food-effect">+5 сытости, +15 радости</div>
+            </div>
+            <div class="food-card" onclick="feed('milk')" id="food-milk">
+                <div class="food-icon">🥛</div>
+                <div class="food-name">Молочко</div>
+                <div class="food-price">1 🪙</div>
+                <div class="food-effect">+10 сытости, +5 энергии</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel" id="shop-panel">
+        <div class="panel-header">
+            <div class="panel-title">🛍️ Магазин Эли</div>
+            <button class="close-btn" onclick="closePanels()">✕</button>
+        </div>
+        <div class="shop-tabs">
+            <button class="shop-tab active" onclick="switchShopTab('accessories')">👗 Украшения</button>
+            <button class="shop-tab" onclick="switchShopTab('food')">🍓 Вкусняшки</button>
+        </div>
+        <div class="shop-grid" id="shop-accessories">
+            <div class="shop-item" id="shop-bow" onclick="buyAccessory('bow')">
+                <div class="shop-icon">🎀</div>
+                <div class="shop-name">Бантик</div>
+                <div class="shop-price">5 🪙</div>
+                <div class="shop-status"></div>
+            </div>
+            <div class="shop-item" id="shop-flower" onclick="buyAccessory('flower')">
+                <div class="shop-icon">🌸</div>
+                <div class="shop-name">Цветочек</div>
+                <div class="shop-price">4 🪙</div>
+                <div class="shop-status"></div>
+            </div>
+            <div class="shop-item" id="shop-butterfly" onclick="buyAccessory('butterfly')">
+                <div class="shop-icon">🦋</div>
+                <div class="shop-name">Бабочка</div>
+                <div class="shop-price">6 🪙</div>
+                <div class="shop-status"></div>
+            </div>
+            <div class="shop-item" id="shop-glasses" onclick="buyAccessory('glasses')">
+                <div class="shop-icon">👓</div>
+                <div class="shop-name">Очки</div>
+                <div class="shop-price">8 🪙</div>
+                <div class="shop-status"></div>
+            </div>
+            <div class="shop-item" id="shop-scarf" onclick="buyAccessory('scarf')">
+                <div class="shop-icon">🧣</div>
+                <div class="shop-name">Шарфик</div>
+                <div class="shop-price">7 🪙</div>
+                <div class="shop-status"></div>
+            </div>
+            <div class="shop-item" id="shop-crown" onclick="buyAccessory('crown')">
+                <div class="shop-icon">👑</div>
+                <div class="shop-name">Корона</div>
+                <div class="shop-price">20 🪙</div>
+                <div class="shop-status"></div>
+            </div>
+        </div>
+        <div class="shop-grid" id="shop-food" style="display:none">
+            <div class="shop-item" id="shop-buy-fish" onclick="buyFood('fish')">
+                <div class="shop-icon">🐟</div>
+                <div class="shop-name">Рыбка</div>
+                <div class="shop-price">2 🪙</div>
+                <div class="shop-status">+20 сытости</div>
+            </div>
+            <div class="shop-item" id="shop-buy-cookie" onclick="buyFood('cookie')">
+                <div class="shop-icon">🧁</div>
+                <div class="shop-name">Кексик</div>
+                <div class="shop-price">1 🪙</div>
+                <div class="shop-status">+15 радости</div>
+            </div>
+            <div class="shop-item" id="shop-buy-milk" onclick="buyFood('milk')">
+                <div class="shop-icon">🥛</div>
+                <div class="shop-name">Молочко</div>
+                <div class="shop-price">1 🪙</div>
+                <div class="shop-status">+5 энергии</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="math-modal" id="math-modal">
+        <div class="math-card">
+            <div class="math-title" id="math-title">Помоги котику, Эля!</div>
+            <div class="math-problem" id="math-problem">30 + 20 = ?</div>
+            <div class="math-visual" id="math-visual"></div>
+            <div class="math-caption" id="math-caption"></div>
+            <div class="math-answers" id="math-answers"></div>
+            <div class="math-actions">
+                <button class="speak-btn" onclick="speakProblem()">🔊</button>
+                <div class="math-hint" onclick="showHint()">💡 Подсказка</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="game-area" id="game-area">
+        <div class="game-head">
+            <div class="game-title">🎾 Поиграй с котиком!</div>
+            <div class="game-round">Раунд <span id="game-round">1</span>/3</div>
+            <button class="game-close" onclick="closeGame()">✕</button>
+        </div>
+        <div class="game-target">
+            <div class="target-text" id="game-target-text">Поймай мячик с правильным ответом!</div>
+            <div class="game-equation" id="game-equation"></div>
+        </div>
+        <div class="game-field" id="game-field">
+            <div class="game-hint-msg" id="game-hint-msg">Попробуй другой мячик! 🎾</div>
+            <div class="game-cat" id="game-cat">
+                <div class="mini-cat">🐱</div>
+                <div style="font-size:14px;font-weight:bold;color:#7A6A80">Котик</div>
+            </div>
+        </div>
+        <div class="game-result" id="game-result">
+            <div class="result-card">
+                <div class="emoji-big">🎉</div>
+                <h3 id="result-title">Молодец, Эля!</h3>
+                <p id="result-text">Ты поймала 3 мячика!</p>
+                <button onclick="closeGame()">Готово! 💛</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="achievements" id="achievements"></div>
+    <div class="toast" id="toast"></div>
+
+    <script>
+        const CAT_PHRASES_HAPPY = [
+            "Эля, я тебя люблю! 💕",
+            "Мур-мур, Эля! 🌸",
+            "Поиграем, Эля?",
+            "Эля, ты самая лучшая!",
+            "Погладь меня, Эля!",
+            "Я скучал, Эля! 💖",
+            "Мяу-мяу, Эля! 🎀"
+        ];
+
+        const CAT_PHRASES_NEEDY = [
+            "Эля, я проголодалась! 🍓",
+            "Эля, мне скучно! Играй со мной! 🎾",
+            "Эля, я хочу спать! 🌙",
+            "Эля, погладь меня! 🤍"
+        ];
+
+        const FOODS = {
+            strawberry: { name: 'Клубничку', icon: '🍓', price: 0, hunger: 10, happiness: 0, energy: 0 },
+            fish: { name: 'Рыбку', icon: '🐟', price: 2, hunger: 20, happiness: 5, energy: 0 },
+            cookie: { name: 'Кексик', icon: '🧁', price: 1, hunger: 5, happiness: 15, energy: 0 },
+            milk: { name: 'Молочко', icon: '🥛', price: 1, hunger: 10, happiness: 0, energy: 5 }
+        };
+
+        const ACCESSORIES = {
+            bow: { name: 'Бантик', icon: '🎀', price: 5 },
+            flower: { name: 'Цветочек', icon: '🌸', price: 4 },
+            butterfly: { name: 'Бабочка', icon: '🦋', price: 6 },
+            glasses: { name: 'Очки', icon: '👓', price: 8 },
+            scarf: { name: 'Шарфик', icon: '🧣', price: 7 },
+            crown: { name: 'Корона', icon: '👑', price: 20 }
+        };
+
+        const TENS_WORDS = {
+            10: 'десять', 20: 'двадцать', 30: 'тридцать',
+            40: 'сорок', 50: 'пятьдесят', 60: 'шестьдесят',
+            70: 'семьдесят', 80: 'восемьдесят', 90: 'девяносто', 100: 'сто'
+        };
+
+        function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+
+        let gameState = {
+            coins: 10,
+            hunger: 80,
+            happiness: 80,
+            energy: 80,
+            isSleeping: false,
+            accessories: [],
+            equippedAccessory: null,
+            lastVisit: Date.now(),
+            greeted: false,
+            soundEnabled: true
+        };
+
+        let gameInterval;
+        let tick = 0;
+        let audioCtx;
+        let lastSoundTime = 0;
+        let purrEl = null;
+        let purrStopTimer = null;
+        let purrUnlocked = false;
+
+        let currentMathProblem = null;
+        let currentMathCallback = null;
+
+        let currentGameProblem = null;
+        let gameRound = 0;
+        let gameScore = 0;
+
+        function initAudio() {
+            if (!audioCtx) {
+                try {
+                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                } catch (e) { }
+            }
+            if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+        }
+
+        function tone(freqFrom, freqTo, duration, type, volume, delay) {
+            if (!audioCtx || !gameState.soundEnabled) return;
+            const t0 = audioCtx.currentTime + (delay || 0);
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = type || 'sine';
+            osc.frequency.setValueAtTime(freqFrom, t0);
+            osc.frequency.linearRampToValueAtTime(freqTo, t0 + duration);
+            gain.gain.setValueAtTime(0.0001, t0);
+            gain.gain.linearRampToValueAtTime(volume || 0.18, t0 + 0.02);
+            gain.gain.linearRampToValueAtTime(0.0001, t0 + duration);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start(t0);
+            osc.stop(t0 + duration + 0.05);
+        }
+
+        function playPop() {
+            tone(520, 380, 0.12, 'triangle', 0.14);
+        }
+
+        function playCoin() {
+            tone(1318, 1318, 0.09, 'sine', 0.16);
+            tone(1760, 1760, 0.16, 'sine', 0.14, 0.08);
+            tone(2637, 2637, 0.2, 'sine', 0.1, 0.16);
+        }
+
+        function createPurrEl() {
+            if (!purrEl) purrEl = new Audio('Zvuki_prirody_-_murchanie_koshki_63222271.mp3');
+            return purrEl;
+        }
+
+        function unlockPurr() {
+            if (purrUnlocked) return;
+            purrUnlocked = true;
+            try {
+                const el = createPurrEl();
+                el.muted = true;
+                el.currentTime = 0;
+                const p = el.play();
+                if (p && p.catch) p.catch(function () { });
+                setTimeout(function () { try { el.pause(); el.muted = false; } catch (e2) { } }, 150);
+            } catch (e) { }
+        }
+
+        function playPurr() {
+            if (!gameState.soundEnabled) return;
+            const now = Date.now();
+            if (now - lastSoundTime < 3200) return;
+            lastSoundTime = now;
+            try {
+                const el = createPurrEl();
+                el.volume = 0.55;
+                el.currentTime = 0;
+                const p = el.play();
+                if (p && p.catch) p.catch(function () { });
+                clearTimeout(purrStopTimer);
+                let v = 0.55;
+                purrStopTimer = setTimeout(function fade() {
+                    v -= 0.08;
+                    if (v > 0) {
+                        el.volume = Math.max(0, v);
+                        purrStopTimer = setTimeout(fade, 220);
+                    } else {
+                        try { el.pause(); } catch (e) { }
+                        el.volume = 0.55;
+                    }
+                }, 2900);
+            } catch (e) { }
+        }
+
+        function playMeow() {
+            if (!gameState.soundEnabled || !audioCtx) return;
+            const now = Date.now();
+            if (now - lastSoundTime < 4200) return;
+            lastSoundTime = now;
+            const duration = 0.85;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.frequency.setValueAtTime(410, audioCtx.currentTime);
+            osc.frequency.linearRampToValueAtTime(520, audioCtx.currentTime + 0.14);
+            osc.frequency.linearRampToValueAtTime(340, audioCtx.currentTime + duration);
+            osc.type = 'sine';
+            gain.gain.setValueAtTime(0.0001, audioCtx.currentTime);
+            gain.gain.linearRampToValueAtTime(0.16, audioCtx.currentTime + 0.06);
+            gain.gain.linearRampToValueAtTime(0.12, audioCtx.currentTime + duration * 0.65);
+            gain.gain.linearRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(audioCtx.currentTime + duration);
+        }
+
+        function playCorrect() {
+            tone(659, 659, 0.14, 'sine', 0.2);
+            tone(880, 880, 0.14, 'sine', 0.18, 0.1);
+            tone(1318, 1318, 0.28, 'sine', 0.16, 0.2);
+        }
+
+        function playWrong() {
+            tone(300, 130, 0.32, 'square', 0.1);
+            tone(200, 90, 0.24, 'square', 0.08, 0.05);
+        }
+
+        function playSneeze() {
+            if (!gameState.soundEnabled || !audioCtx) return;
+            const now = Date.now();
+            if (now - lastSoundTime < 2000) return;
+            lastSoundTime = now;
+            tone(700, 1000, 0.16, 'triangle', 0.12);
+            tone(1100, 400, 0.3, 'sawtooth', 0.06, 0.16);
+            tone(300, 140, 0.2, 'sine', 0.14, 0.3);
+        }
+
+        function playSmack() {
+            tone(340, 240, 0.09, 'triangle', 0.16);
+        }
+
+        function speak(text) {
+            if (!gameState.soundEnabled) return;
+            if (!('speechSynthesis' in window)) return;
+            try {
+                window.speechSynthesis.cancel();
+                const u = new SpeechSynthesisUtterance(text);
+                u.lang = 'ru-RU';
+                u.rate = 0.92;
+                u.pitch = 1.45;
+                const voices = window.speechSynthesis.getVoices();
+                const ruVoice = voices.find(v => v.lang && v.lang.toLowerCase().indexOf('ru') === 0);
+                if (ruVoice) u.voice = ruVoice;
+                window.speechSynthesis.speak(u);
+            } catch (e) { }
+        }
+
+        function saveGame() {
+            gameState.lastVisit = Date.now();
+            try {
+                localStorage.setItem('kotik_elya_v3', JSON.stringify(gameState));
+            } catch (e) { }
+        }
+
+        function loadGame() {
+            try {
+                const raw = localStorage.getItem('kotik_elya_v3');
+                if (raw) {
+                    const saved = JSON.parse(raw);
+                    gameState = Object.assign({}, gameState, saved);
+                    if (!Array.isArray(gameState.accessories)) gameState.accessories = [];
+                }
+            } catch (e) { }
+        }
+
+        function isNewDay() {
+            const last = new Date(gameState.lastVisit);
+            const now = new Date();
+            return last.getDate() !== now.getDate() || last.getMonth() !== now.getMonth() || last.getFullYear() !== now.getFullYear();
+        }
+
+        function checkOfflineSleep() {
+            const now = Date.now();
+            const hoursOffline = (now - gameState.lastVisit) / 3600000;
+            if (hoursOffline > 0.5) {
+                gameState.hunger = clamp(gameState.hunger - Math.min(20, Math.round(hoursOffline * 8)), 50, 100);
+                gameState.happiness = clamp(gameState.happiness - Math.min(14, Math.round(hoursOffline * 5)), 50, 100);
+                gameState.energy = clamp(gameState.energy - Math.min(15, Math.round(hoursOffline * 4)), 55, 100);
+                gameState.isSleeping = false;
+                showAchievement('Котик спал и отдохнул! 🌙');
+                setTimeout(() => {
+                    catWakeUp();
+                }, 600);
+            }
+        }
+
+        function catWakeUp() {
+            const cat = document.getElementById('cat');
+            cat.classList.remove('sleeping');
+            cat.classList.add('stretch');
+            document.body.classList.remove('night');
+            updateUI();
+            setTimeout(() => cat.classList.remove('stretch'), 1800);
+            say('Мяу! Я проснулась! 😊 Поиграем?');
+            setTimeout(() => {
+                playPurr();
+            }, 400);
+        }
+
+        function createStars() {
+            const wrap = document.getElementById('stars');
+            for (let i = 0; i < 55; i++) {
+                const s = document.createElement('div');
+                s.className = 'star';
+                s.style.left = Math.random() * 100 + '%';
+                s.style.top = Math.random() * 100 + '%';
+                s.style.animationDelay = Math.random() * 3 + 's';
+                if (Math.random() > 0.7) s.style.width = '7px', s.style.height = '7px';
+                wrap.appendChild(s);
+            }
+        }
+
+        function createFloatingHearts() {
+            const wrap = document.getElementById('floatingHearts');
+            const items = ['💕', '💖', '🌸', '✨', '🎀', '💗', '🍓'];
+            for (let i = 0; i < 14; i++) {
+                const h = document.createElement('div');
+                h.className = 'floating-heart';
+                h.textContent = items[Math.floor(Math.random() * items.length)];
+                h.style.left = Math.random() * 100 + '%';
+                h.style.animationDelay = Math.random() * 16 + 's';
+                h.style.animationDuration = (11 + Math.random() * 9) + 's';
+                wrap.appendChild(h);
+            }
+        }
+
+        function say(text) {
+            const bubble = document.getElementById('speechBubble');
+            bubble.textContent = text;
+            bubble.classList.add('show');
+            clearTimeout(say._t);
+            say._t = setTimeout(() => bubble.classList.remove('show'), 3400);
+            setTimeout(() => { try { speak(text.replace(/[^\wа-яА-ЯёЁ\s.,!?+]/g, ' ').trim()); } catch (e) { } }, 250);
+        }
+
+        function showAchievement(text) {
+            const wrap = document.getElementById('achievements');
+            const el = document.createElement('div');
+            el.className = 'achievement';
+            el.textContent = text;
+            wrap.appendChild(el);
+            while (wrap.children.length > 4) wrap.removeChild(wrap.firstChild);
+            setTimeout(() => { el.style.opacity = '0'; el.style.transition = 'opacity .5s'; }, 3600);
+            setTimeout(() => el.remove(), 4200);
+        }
+
+        let toastTimer;
+        function showToast(title, sub) {
+            const t = document.getElementById('toast');
+            t.innerHTML = '<span class="toast-title">' + title + '</span>' + (sub ? sub : '');
+            t.classList.add('show');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => t.classList.remove('show'), 3200);
+        }
+
+        function confettiBurst(x, y) {
+            const colors = ['#FFB6C1', '#7ED9C2', '#FFD166', '#B5A6D9', '#FFB347', '#FF8FA8'];
+            for (let i = 0; i < 26; i++) {
+                const p = document.createElement('div');
+                p.className = 'confetti-piece';
+                p.style.left = x + 'px';
+                p.style.top = y + 'px';
+                p.style.background = colors[i % colors.length];
+                p.style.setProperty('--cx', (Math.random() * 220 - 110) + 'px');
+                p.style.setProperty('--cy', (-Math.random() * 90) + 'px');
+                p.style.setProperty('--cr', (Math.random() * 720 - 360) + 'deg');
+                p.style.animationDelay = (Math.random() * 0.25) + 's';
+                document.body.appendChild(p);
+                setTimeout(() => p.remove(), 2600);
+            }
+        }
+
+        function coinFly(x, y) {
+            const el = document.createElement('div');
+            el.className = 'coin-fly';
+            el.textContent = '🪙';
+            el.style.left = x + 'px';
+            el.style.top = y + 'px';
+            document.body.appendChild(el);
+            const coinEl = document.getElementById('coinCount');
+            const rect = coinEl.getBoundingClientRect();
+            const dx = rect.left + rect.width / 2 - x;
+            const dy = rect.top + rect.height / 2 - y;
+            el.style.setProperty('--dx', dx + 'px');
+            el.style.setProperty('--dy', dy + 'px');
+            setTimeout(() => el.remove(), 900);
+            playCoin();
+        }
+
+        function accessoryFall(icon) {
+            const el = document.createElement('div');
+            el.className = 'accessory-fall';
+            el.textContent = icon;
+            el.style.left = '50%';
+            el.style.top = '0';
+            document.body.appendChild(el);
+            setTimeout(() => el.remove(), 1200);
+        }
+
+        function updateUI() {
+            document.getElementById('coinCount').textContent = gameState.coins;
+
+            const hungerBar = document.getElementById('hunger-bar');
+            hungerBar.style.width = gameState.hunger + '%';
+            hungerBar.className = 'status-fill ' + (gameState.hunger < 45 ? 'hunger-h' : 'hunger') + (gameState.hunger < 30 ? ' low' : '');
+
+            const happyBar = document.getElementById('happiness-bar');
+            happyBar.style.width = gameState.happiness + '%';
+            happyBar.className = 'status-fill ' + (gameState.happiness < 45 ? 'happiness-b' : 'happiness') + (gameState.happiness < 30 ? ' low' : '');
+
+            const energyBar = document.getElementById('energy-bar');
+            energyBar.style.width = gameState.energy + '%';
+            energyBar.className = 'status-fill ' + (gameState.energy < 45 ? 'energy-s' : 'energy') + (gameState.energy < 30 ? ' low' : '');
+
+            updateFoodAvailability();
+            renderShopStatus();
+
+            const sleepIcon = document.getElementById('sleep-icon');
+            if (gameState.isSleeping) {
+                document.body.classList.add('night');
+                sleepIcon.textContent = '☀️';
+                document.getElementById('sleep-label').textContent = 'Разбудить';
+            } else {
+                document.body.classList.remove('night');
+                sleepIcon.textContent = '🌙';
+                document.getElementById('sleep-label').textContent = 'Спать';
+            }
+        }
+
+        function updateFoodAvailability() {
+            document.getElementById('food-fish').classList.toggle('disabled', gameState.coins < FOODS.fish.price);
+            document.getElementById('food-cookie').classList.toggle('disabled', gameState.coins < FOODS.cookie.price);
+            document.getElementById('food-milk').classList.toggle('disabled', gameState.coins < FOODS.milk.price);
+        }
+
+        function avgStatus() {
+            return (gameState.hunger + gameState.happiness + gameState.energy) / 3;
+        }
+
+        function updateCatEmotion() {
+            const mouth = document.getElementById('mouth');
+            const tears = document.getElementById('emotion-tears');
+            const hearts = document.getElementById('emotion-hearts');
+            const zzz = document.getElementById('emotion-zzz');
+            const cat = document.getElementById('cat');
+
+            tears.style.display = 'none';
+            hearts.style.display = 'none';
+            zzz.style.display = gameState.isSleeping ? 'block' : 'none';
+            mouth.classList.remove('meowing');
+            cat.classList.toggle('sleeping', gameState.isSleeping);
+
+            if (gameState.isSleeping) {
+                return;
+            }
+
+            const avg = avgStatus();
+            if (avg < 28) {
+                tears.style.display = 'block';
+                mouth.classList.add('meowing');
+            } else if (avg < 48 || gameState.hunger < 30 || gameState.happiness < 30) {
+                mouth.classList.add('meowing');
+            }
+
+            if (gameState.happiness > 78) {
+                hearts.style.display = 'block';
+            }
+        }
+
+        function updateCatSound() {
+            if (gameState.isSleeping) return;
+            const avg = avgStatus();
+            if (avg > 68 && Math.random() > 0.5) {
+                playPurr();
+            } else if (avg < 32 && Math.random() > 0.6) {
+                playMeow();
+            }
+        }
+
+        function toggleSound() {
+            gameState.soundEnabled = !gameState.soundEnabled;
+            if (!gameState.soundEnabled && purrEl) { try { purrEl.pause(); } catch (e) { } }
+            const btn = document.getElementById('soundBtn');
+            btn.textContent = gameState.soundEnabled ? '🔊' : '🔇';
+            btn.classList.toggle('muted', !gameState.soundEnabled);
+            saveGame();
+        }
+
+        function petCat() {
+            initAudio();
+            playSmack();
+            const cat = document.getElementById('cat');
+            cat.classList.remove('jump');
+            void cat.offsetWidth;
+            cat.classList.add('jump');
+            gameState.happiness = clamp(gameState.happiness + 8, 0, 100);
+            gameState.energy = clamp(gameState.energy + 3, 0, 100);
+            updateUI();
+            updateCatEmotion();
+            setTimeout(() => cat.classList.remove('jump'), 800);
+            if (Math.random() > 0.35) say(CAT_PHRASES_HAPPY[Math.floor(Math.random() * CAT_PHRASES_HAPPY.length)]);
+            setTimeout(() => playPurr(), 250);
+        }
+
+        function toggleSleep() {
+            initAudio();
+            if (gameState.isSleeping) {
+                gameState.isSleeping = false;
+                catWakeUp();
+            } else {
+                gameState.isSleeping = true;
+                playPop();
+                showAchievement('Спокойной ночи, котик! 🌙');
+                updateUI();
+                updateCatEmotion();
+                say('Спокойной ночи, Эля! 🌙');
+            }
+            saveGame();
+        }
+
+        function openFoodPanel() {
+            initAudio();
+            playPop();
+            closePanels();
+            document.getElementById('overlay').classList.add('active');
+            document.getElementById('food-panel').classList.add('active');
+        }
+
+        function openShop() {
+            initAudio();
+            playPop();
+            closePanels();
+            document.getElementById('overlay').classList.add('active');
+            document.getElementById('shop-panel').classList.add('active');
+            renderShopStatus();
+        }
+
+        function closePanels() {
+            document.getElementById('overlay').classList.remove('active');
+            document.getElementById('food-panel').classList.remove('active');
+            document.getElementById('shop-panel').classList.remove('active');
+        }
+
+        function switchShopTab(tab) {
+            const tabs = document.querySelectorAll('.shop-tab');
+            tabs[0].classList.toggle('active', tab === 'accessories');
+            tabs[1].classList.toggle('active', tab === 'food');
+            document.getElementById('shop-accessories').style.display = tab === 'accessories' ? 'grid' : 'none';
+            document.getElementById('shop-food').style.display = tab === 'food' ? 'grid' : 'none';
+        }
+
+        function showChangeInfo(before, price) {
+            const after = before - price;
+            showToast('Потратили ' + price + ' 🪙', 'Было ' + before + ' → осталось ' + after + ' 🪙');
+        }
+
+        function feed(type) {
+            initAudio();
+            const food = FOODS[type];
+            if (!food) return;
+            if (gameState.coins < food.price) {
+                playWrong();
+                const need = food.price - gameState.coins;
+                showToast('Ой, не хватает монеток! 😢', 'Поймай мячики в игре и заработай ещё ' + need + ' 🪙');
+                return;
+            }
+            const before = gameState.coins;
+            gameState.coins -= food.price;
+            gameState.hunger = clamp(gameState.hunger + food.hunger, 0, 100);
+            gameState.happiness = clamp(gameState.happiness + food.happiness, 0, 100);
+            gameState.energy = clamp(gameState.energy + food.energy, 0, 100);
+            gameState.coins += 1;
+            updateUI();
+            updateCatEmotion();
+            playPop();
+            if (food.price > 0) showChangeInfo(before, food.price);
+            showAchievement('Ням-ням! Котик съел ' + food.name + '! ' + food.icon);
+            catLick();
+        }
+
+        function catLick() {
+            const cat = document.getElementById('cat');
+            cat.classList.remove('jump');
+            void cat.offsetWidth;
+            cat.classList.add('jump');
+            setTimeout(() => cat.classList.remove('jump'), 800);
+            setTimeout(() => say('Вкусняшка! Спасибо, Эля! 😋'), 300);
+            setTimeout(() => playPurr(), 600);
+        }
+
+        function equipAccessory(id) {
+            gameState.equippedAccessory = id;
+            const all = ['bow', 'hat', 'glasses', 'scarf', 'crown', 'flower', 'butterfly'];
+            all.forEach(k => {
+                const el = document.getElementById('acc-' + k);
+                if (el) el.style.display = k === id ? 'block' : 'none';
+            });
+            renderShopStatus();
+        }
+
+        function buyAccessory(id) {
+            initAudio();
+            const a = ACCESSORIES[id];
+            if (!a) return;
+            if (gameState.accessories.indexOf(id) !== -1) {
+                equipAccessory(id);
+                playPop();
+                showToast(a.icon + ' ' + a.name + ' надето!', 'Красота! 💕');
+                return;
+            }
+            if (gameState.coins < a.price) {
+                playWrong();
+                const need = a.price - gameState.coins;
+                showToast('Не хватает монеток! 😢', 'Нужно ещё ' + need + ' 🪙');
+                return;
+            }
+            const before = gameState.coins;
+            gameState.coins -= a.price;
+            gameState.accessories.push(id);
+            equipAccessory(id);
+            updateUI();
+            playCoin();
+            showChangeInfo(before, a.price);
+            accessoryFall(a.icon);
+            confettiBurst(window.innerWidth / 2, window.innerHeight / 2);
+            showAchievement('Ура! Котик получил ' + a.name + '! ' + a.icon);
+            setTimeout(() => {
+                document.getElementById('cat').classList.add('jump');
+                setTimeout(() => document.getElementById('cat').classList.remove('jump'), 800);
+                playSneeze();
+                say('Апчхи! Ой, привет, ' + a.name + '! 🤧😊');
+            }, 1100);
+            saveGame();
+        }
+
+        function buyFood(type) {
+            const food = FOODS[type];
+            if (!food) return;
+            initAudio();
+            if (gameState.coins < food.price) {
+                playWrong();
+                showToast('Не хватает монеток! 😢', 'Нужно ещё ' + (food.price - gameState.coins) + ' 🪙');
+                return;
+            }
+            const before = gameState.coins;
+            gameState.coins -= food.price;
+            gameState.hunger = clamp(gameState.hunger + food.hunger, 0, 100);
+            gameState.happiness = clamp(gameState.happiness + food.happiness, 0, 100);
+            gameState.energy = clamp(gameState.energy + food.energy, 0, 100);
+            updateUI();
+            updateCatEmotion();
+            playCoin();
+            showChangeInfo(before, food.price);
+            showAchievement('Котик покушала! ' + food.icon);
+            catLick();
+        }
+
+        function renderShopStatus() {
+            Object.keys(ACCESSORIES).forEach(id => {
+                const box = document.getElementById('shop-' + id);
+                if (!box) return;
+                const owned = gameState.accessories.indexOf(id) !== -1;
+                const equipped = gameState.equippedAccessory === id;
+                box.classList.toggle('owned', owned);
+                box.classList.toggle('equipped', equipped);
+                const statusEl = box.querySelector('.shop-status');
+                if (owned) {
+                    statusEl.textContent = equipped ? 'На котике 💕' : 'Есть — нажми надеть';
+                } else {
+                    statusEl.textContent = '';
+                }
+            });
+        }
+
+        function numToWords(n) {
+            return TENS_WORDS[n] || String(n);
+        }
+
+        function makeProblem(level) {
+            let op, a, b, answer;
+            if (level === 'sub' || (level === 'game' && Math.random() > 0.5)) {
+                op = '-';
+                const tensChoices = [20, 30, 40, 50];
+                a = tensChoices[Math.floor(Math.random() * tensChoices.length)];
+                const maxB = a / 10 - 1;
+                b = 10 * (1 + Math.floor(Math.random() * maxB));
+                answer = a - b;
+            } else {
+                op = '+';
+                const limit = level === 'easy' ? 5 : 10;
+                const aUnits = 1 + Math.floor(Math.random() * Math.min(4, limit - 1));
+                const bUnits = 1 + Math.floor(Math.random() * (limit - aUnits));
+                a = aUnits * 10;
+                b = bUnits * 10;
+                answer = a + b;
+            }
+
+            let visual;
+            let caption;
+            const aBunches = a / 10;
+            const bBunches = b / 10;
+            if (op === '+') {
+                visual = '<span class="carrot-group">' + '🥕'.repeat(aBunches) + '</span>' +
+                    '<span class="op">+</span>' +
+                    '<span class="carrot-group">' + '🥕'.repeat(bBunches) + '</span>';
+                caption = 'Это пучки морковок. ' + aBunches + ' пучок + ' + bBunches + ' пучок — сколько пучков?';
+            } else {
+                visual = '<span class="carrot-group">' + '🥕'.repeat(aBunches) + '</span>' +
+                    '<span class="op">−</span>' +
+                    '<span class="carrot-group">' + '🥕'.repeat(bBunches) + '</span>';
+                caption = 'Было ' + aBunches + ' пучков морковок, съели ' + bBunches + ' пучков. Сколько осталось?';
+            }
+
+            const answerBunches = answer / 10;
+            const speakText = op === '+'
+                ? 'Эля, посмотри: ' + aBunches + ' пучка морковок, плюс ' + bBunches + ' пучка. Сколько всего пучков морковок? Поймай правильный ответ!'
+                : 'Было ' + aBunches + ' пучка морковок, и котик съел ' + bBunches + ' пучка. Сколько пучков осталось? Поймай правильный ответ!';
+
+            const options = buildOptions(answer);
+
+            return {
+                op: op,
+                answer: answer,
+                text: a + (op === '+' ? ' + ' : ' − ') + b + ' = ?',
+                visual: visual,
+                caption: caption,
+                hint: op === '+' ? 'Считай пучки: ' + aBunches + ' и ' + bBunches + ' — это ' + answerBunches + ' пучков. По ' + numToWords(10) + ' морковок в каждом. Значит ответ ' + answer + '!' : 'Отними пучки: ' + aBunches + ' − ' + bBunches + ' = ' + answerBunches + ' пучков. Каждый пучок — это ' + numToWords(10) + '. Ответ ' + answer + '!',
+                speakText: speakText,
+                options: options,
+                correctIndex: options.indexOf(answer)
+            };
+        }
+
+        function buildOptions(answer) {
+            const set = new Set();
+            set.add(answer);
+            const diffs = [10, 20, -10, -20, 30, -30];
+            for (const d of diffs) {
+                if (set.size >= 3) break;
+                const v = answer + d;
+                if (v >= 0) set.add(v);
+            }
+            while (set.size < 3) {
+                set.add(Math.floor(Math.random() * 10) * 10);
+            }
+            const arr = Array.from(set).sort(() => Math.random() - 0.5);
+            return arr;
+        }
+
+        function showMathProblem(onSuccess, level) {
+            initAudio();
+            currentMathProblem = makeProblem(level || 'easy');
+            currentMathCallback = onSuccess || function () { };
+            document.getElementById('math-problem').textContent = currentMathProblem.text;
+            document.getElementById('math-visual').innerHTML = currentMathProblem.visual;
+            document.getElementById('math-caption').textContent = currentMathProblem.caption;
+
+            const answersWrap = document.getElementById('math-answers');
+            answersWrap.innerHTML = '';
+            currentMathProblem.options.forEach((opt, i) => {
+                const btn = document.createElement('button');
+                btn.className = 'math-answer';
+                btn.textContent = opt;
+                btn.onclick = function () { mathAnswer(i); };
+                answersWrap.appendChild(btn);
+            });
+
+            document.getElementById('math-modal').classList.add('active');
+        }
+
+        function closeMathModal() {
+            document.getElementById('math-modal').classList.remove('active');
+        }
+
+        function mathAnswer(i) {
+            const btns = document.querySelectorAll('.math-answer');
+            if (i === currentMathProblem.correctIndex) {
+                btns[i].classList.add('correct');
+                playCorrect();
+                say('Умница, Эля! Правильно! 🎉');
+                setTimeout(() => {
+                    closeMathModal();
+                    const cb = currentMathCallback;
+                    currentMathCallback = null;
+                    currentMathProblem = null;
+                    if (cb) cb();
+                }, 950);
+            } else {
+                btns[i].classList.add('wrong');
+                playWrong();
+                btns[i].onclick = null;
+                say('Почти! Попробуй ещё разок! 🌸');
+                setTimeout(() => btns[i].classList.remove('wrong'), 500);
+            }
+        }
+
+        function speakProblem() {
+            if (!currentMathProblem) return;
+            speak(currentMathProblem.speakText);
+        }
+
+        function showHint() {
+            if (!currentMathProblem) return;
+            document.getElementById('math-caption').textContent = currentMathProblem.hint;
+            playPop();
+            speak(currentMathProblem.hint.replace(/\d+/g, function (m) {
+                return numToWords(parseInt(m, 10));
+            }));
+        }
+
+        function startGame() {
+            initAudio();
+            closePanels();
+            gameRound = 0;
+            gameScore = 0;
+            document.getElementById('game-area').classList.add('active');
+            document.getElementById('game-result').classList.remove('active');
+            nextRound();
+        }
+
+        function closeGame() {
+            document.getElementById('game-area').classList.remove('active');
+            document.getElementById('game-field').innerHTML = '';
+            document.getElementById('game-field').appendChild(createGameBottomMarkup());
+            gameRound = 0;
+            gameScore = 0;
+        }
+
+        function createGameBottomMarkup() {
+            const doc = document.createElement('div');
+            doc.innerHTML = '<div class="game-hint-msg" id="game-hint-msg"></div>' +
+                '<div class="game-cat" id="game-cat"><div class="mini-cat">🐱</div><div style="font-size:14px;font-weight:bold;color:#7A6A80">Котик</div></div>';
+            return doc;
+        }
+
+        function nextRound() {
+            gameRound++;
+            if (gameRound > 3) {
+                finishGame();
+                return;
+            }
+            document.getElementById('game-round').textContent = gameRound;
+            currentGameProblem = makeProblem('game');
+            document.getElementById('game-equation').textContent = currentGameProblem.text;
+
+            const field = document.getElementById('game-field');
+            field.innerHTML = '';
+            const hintMsg = document.createElement('div');
+            hintMsg.className = 'game-hint-msg';
+            hintMsg.id = 'game-hint-msg';
+            hintMsg.textContent = 'Попробуй другой мячик! 🎾';
+            field.appendChild(hintMsg);
+
+            const ballStyles = ['', 'mint', 'purple'];
+            currentGameProblem.options.forEach((num, i) => {
+                const ball = document.createElement('div');
+                ball.className = 'game-ball ' + ballStyles[i % 3];
+                ball.textContent = num;
+                ball.style.left = (8 + Math.random() * 62) + '%';
+                ball.style.top = (10 + Math.random() * 46) + '%';
+                const dur = 2.4 + Math.random() * 1.6;
+                ball.style.animation = 'ballFloat ' + dur + 's ease-in-out ' + (Math.random() * 0.6) + 's infinite';
+                ball.onclick = function () { catchBall(i); };
+                field.appendChild(ball);
+            });
+
+            const catcher = document.createElement('div');
+            catcher.className = 'game-cat';
+            catcher.innerHTML = '<div class="mini-cat" id="mini-cat">🐱</div><div style="font-size:14px;font-weight:bold;color:#7A6A80">Котик</div>';
+            field.appendChild(catcher);
+
+            sayTarget();
+            setTimeout(() => speakTarget(), 200);
+        }
+
+        function speakTarget() {
+            if (currentGameProblem && !document.getElementById('game-result').classList.contains('active')) {
+                speak('Поймай мячик с ответом! ' + currentGameProblem.speakText);
+            }
+        }
+
+        function sayTarget() {
+            const bubble = document.getElementById('speechBubble');
+            bubble.textContent = 'Поймай правильный мячик, Эля! 🎾';
+            bubble.classList.add('show');
+            clearTimeout(sayTarget._t);
+            sayTarget._t = setTimeout(() => bubble.classList.remove('show'), 3600);
+        }
+
+        function showGameHint() {
+            const msg = document.getElementById('game-hint-msg');
+            if (msg) {
+                msg.classList.add('show');
+                playWrong();
+                setTimeout(() => msg.classList.remove('show'), 1400);
+            }
+        }
+
+        function catchBall(i) {
+            if (i === currentGameProblem.correctIndex) {
+                const field = document.getElementById('game-field');
+                const balls = field.querySelectorAll('.game-ball');
+
+                balls[i].classList.add('caught');
+                balls[i].style.animation = 'flyAway 0.7s ease forwards';
+                balls[i].style.pointerEvents = 'none';
+
+                const rect = balls[i].getBoundingClientRect();
+                confettiBurst(rect.left + rect.width / 2, rect.top + rect.height / 2);
+
+                gameScore++;
+                gameState.coins += 1;
+                updateUI();
+                coinFly(rect.left + rect.width / 2, rect.top + rect.height / 2);
+                playCorrect();
+                say('Молодец, Эля! Поймала! 🎉');
+
+                const catcher = field.querySelector('.game-cat');
+                if (catcher) {
+                    catcher.classList.add('jumping');
+                    setTimeout(() => catcher.classList.remove('jumping'), 800);
+                }
+
+                setTimeout(() => {
+                    balls.forEach(function (b, bi) {
+                        if (bi === i) return;
+                        b.style.animation = 'pop 0.4s ease forwards';
+                        b.style.pointerEvents = 'none';
+                    });
+                }, 250);
+                setTimeout(() => {
+                    nextRound();
+                }, 1000);
+            } else {
+                const field = document.getElementById('game-field');
+                const balls = field.querySelectorAll('.game-ball');
+                balls[i].classList.add('wrong');
+                balls[i].style.animation = 'shake 0.5s ease';
+                balls[i].style.opacity = '0.35';
+                balls[i].style.pointerEvents = 'none';
+                balls[i].onclick = null;
+                showGameHint();
+            }
+        }
+
+        function finishGame() {
+            gameState.happiness = clamp(gameState.happiness + 10, 0, 100);
+            updateUI();
+            updateCatEmotion();
+            const result = document.getElementById('game-result');
+            document.getElementById('result-title').textContent = 'Молодец, Эля! 🎉';
+            document.getElementById('result-text').textContent = 'Ты поймала ' + gameScore + ' мячик' + plural(gameScore) + ' и заработала ' + gameScore + ' 🪙';
+            result.classList.add('active');
+            confettiBurst(window.innerWidth / 2, window.innerHeight / 2);
+            confettiBurst(window.innerWidth / 3, window.innerHeight / 3);
+            setTimeout(() => playCorrect(), 150);
+            saveGame();
+        }
+
+        function plural(n) {
+            if (n % 10 === 1 && n % 100 !== 11) return '';
+            if (n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) return 'а';
+            return 'ов';
+        }
+
+        function startGameLoop() {
+            gameInterval = setInterval(function () {
+                tick++;
+                if (gameState.isSleeping) {
+                    gameState.energy = clamp(gameState.energy + 1, 0, 100);
+                    if (tick % 140 === 0) gameState.hunger = clamp(gameState.hunger - 1, 0, 100);
+                    if (tick % 200 === 0) gameState.happiness = clamp(gameState.happiness - 1, 0, 100);
+                } else {
+                    gameState.hunger = clamp(gameState.hunger - 1, 0, 100);
+                    if (tick % 45 === 0) gameState.happiness = clamp(gameState.happiness - 1, 0, 100);
+                    if (tick % 70 === 0) gameState.energy = clamp(gameState.energy - 1, 0, 100);
+                }
+                updateUI();
+                updateCatEmotion();
+            }, 1000);
+        }
+
+        function checkDailyBonus() {
+            setTimeout(function () {
+                showAchievement('Эля, с возвращением! +5 🪙');
+                gameState.coins += 5;
+                updateUI();
+                setTimeout(function () {
+                    showMathProblem(function () {
+                        gameState.coins += 3;
+                        updateUI();
+                        showAchievement('Эля умница! +3 🪙');
+                        confettiBurst(window.innerWidth / 2, window.innerHeight / 2);
+                    }, 'easy');
+                }, 1300);
+            }, 900);
+        }
+
+        function closeGreeting() {
+            initAudio();
+            playPop();
+            document.getElementById('greeting').style.display = 'none';
+            if (isNewDay() || window.__firstVisit) {
+                gameState.greeted = true;
+                checkDailyBonus();
+            }
+            saveGame();
+        }
+
+        function init() {
+            loadGame();
+            document.addEventListener('pointerdown', unlockPurr);
+            document.addEventListener('touchstart', unlockPurr);
+            document.addEventListener('keydown', unlockPurr);
+            window.__firstVisit = !gameState.greeted;
+            updateSoundBtn();
+            checkOfflineSleep();
+            createStars();
+            createFloatingHearts();
+            equipAccessory(gameState.equippedAccessory);
+            updateUI();
+            updateCatEmotion();
+            startGameLoop();
+
+            if (!gameState.greeted || isNewDay()) {
+                document.getElementById('greeting').style.display = 'block';
+                gameState.greeted = true;
+            }
+
+            setInterval(saveGame, 10000);
+
+            setInterval(function () {
+                if (gameState.isSleeping) return;
+                if (Math.random() > 0.72) {
+                    const avg = avgStatus();
+                    let pool = CAT_PHRASES_HAPPY;
+                    if (avg < 45) pool = CAT_PHRASES_NEEDY;
+                    say(pool[Math.floor(Math.random() * pool.length)]);
+                }
+            }, 16000);
+
+            setInterval(function () {
+                updateCatSound();
+            }, 6000);
+        }
+
+        function updateSoundBtn() {
+            const btn = document.getElementById('soundBtn');
+            btn.textContent = gameState.soundEnabled ? '🔊' : '🔇';
+            btn.classList.toggle('muted', !gameState.soundEnabled);
+        }
+
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.onvoiceschanged = function () {
+                window.speechSynthesis.getVoices();
+            };
+        }
+
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
